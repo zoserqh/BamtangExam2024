@@ -34,7 +34,7 @@ Maze::Maze(int n){
         }
     }
 
-    generator(matrix[startPosition[1]][startPosition[0]]);
+    generator(matrix[startPosition[1]][startPosition[0]], matrix[startPosition[0]][startPosition[0]]);
 
     //solve cell type undefined and unvisited
     for(int i=0;i<dimension;i++){
@@ -46,28 +46,49 @@ Maze::Maze(int n){
     }
 }
 
-void Maze::generator(Cell& targetCell){
+void Maze::generator(Cell& targetCell, Cell const& pastCell){
+    // delete 2x2 block of PATHS
     int numPATH = 0;
     if(targetCell.up->getCellType() == cellType::PATH){ numPATH++; }
     if(targetCell.down->getCellType() == cellType::PATH){ numPATH++; }
     if(targetCell.left->getCellType() == cellType::PATH){ numPATH++; }
     if(targetCell.right->getCellType() == cellType::PATH){ numPATH++; }
-
     if(numPATH >=2){
        targetCell.setCellType(cellType::WALL);
-       return; 
+       return;
     }
-    // bool cornerPath = false;
-    // if(targetCell.up->left->getCellType() == cellType::PATH){ cornerPath=true; }
-    // else if(targetCell.up->right->getCellType() == cellType::PATH){ cornerPath=true; }
-    // else if(targetCell.down->left->getCellType() == cellType::PATH){ cornerPath=true; }
-    // else if(targetCell.down->right->getCellType() == cellType::PATH){ cornerPath=true; }
-    // if(cornerPath){
-    //    targetCell.setCellType(cellType::WALL);
-    //    return; 
-    // }
 
-    //
+    //hard constraint to explore (that is optional)
+    int direcctionX = targetCell.getPosX() - pastCell.getPosX();
+    int direcctionY = targetCell.getPosY() - pastCell.getPosY();
+    bool isWall = false;
+    if(direcctionX == 0 && direcctionY == -1){
+        if(targetCell.up->left->getCellType() == cellType::PATH || targetCell.up->right->getCellType() == cellType::PATH){
+            targetCell.setCellType(cellType::WALL);
+            isWall = true;
+        }
+    }
+    else if(direcctionX == 0 && direcctionY == 1){
+        if(targetCell.down->left->getCellType() == cellType::PATH || targetCell.down->right->getCellType() == cellType::PATH){
+            targetCell.setCellType(cellType::WALL);
+            isWall = true;
+        }
+    }
+    else if(direcctionX == -1 && direcctionY == 0){
+        if(targetCell.left->up->getCellType() == cellType::PATH || targetCell.left->down->getCellType() == cellType::PATH){
+            targetCell.setCellType(cellType::WALL);
+            isWall = true;
+        }
+    }
+    else if(direcctionX == 1 && direcctionY == 0){
+        if(targetCell.right->up->getCellType() == cellType::PATH || targetCell.right->down->getCellType() == cellType::PATH){
+            targetCell.setCellType(cellType::WALL);
+            isWall = true;
+        }
+    }
+    if(isWall){ return; }
+
+    //recursive backtracking
     targetCell.setCellType(cellType::PATH); 
     vector<Cell*> options;
     if(targetCell.up->getCellType() == cellType::UNDEFINED){
@@ -91,7 +112,7 @@ void Maze::generator(Cell& targetCell){
     mt19937 g(rd());
     shuffle(options.begin(), options.end(),g);
     for(int i=0;i<options.size();i++){
-        generator(*(options[i]));
+        generator(*(options[i]),targetCell);
     }
 }
 
@@ -119,4 +140,9 @@ void Maze::displayMaze() const {
     cv::Mat myMathMatrix(dimension,dimension,CV_64F,arr);
     cv::imshow("Maze", myMathMatrix);
     cv::waitKey(0);
+}
+
+void createMaze2D(int n){
+    Maze myMaze(n);
+    myMaze.displayMaze();
 }
