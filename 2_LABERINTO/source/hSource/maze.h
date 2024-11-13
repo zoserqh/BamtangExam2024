@@ -12,10 +12,14 @@ public:
     const vector<vector<Cell>>& getMaze();
     void displayMaze() const;
     void generator(Cell& targetCell, Cell const& pastCell);
+    void searchFinalPosition();
+    void navigator(Cell const& targetCell, Cell const& pastCell, vector<int>& counters, int& counter, vector<pair<Cell const*,int>>& possibleEndings);
+    void setFinalPosition(int x , int y);
 private:
     vector<vector<Cell>> matrix;
     int dimension;
     vector<int> startPosition = {1,1};
+    vector<int> finalPosition = {1,1};
 };
 
 void createMaze2D(int n); 
