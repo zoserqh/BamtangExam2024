@@ -119,11 +119,11 @@ void Maze::generator(Cell& targetCell, Cell const& pastCell){
     }
 }
 
-const vector<vector<Cell>>& Maze::getMaze(){
+const vector<vector<Cell>>& Maze::getMaze() const{
     return matrix;
 }
 
-void Maze::displayMaze() const {
+void Maze::displayMazeByWindow() const {
     double arr[dimension][dimension];
     for(int i=0;i<dimension;i++){
         for(int j=0;j<dimension;j++){
@@ -146,8 +146,14 @@ void Maze::displayMaze() const {
 }
 
 void createMaze2D(int n){
+    if(n<=3 || n%2==0){
+        cout << "invalid value of the dimensions of the maze\n";
+        return;
+    }
+    
     Maze myMaze(n);
-    myMaze.displayMaze();
+    myMaze.displayMazeByTerminal();
+    myMaze.displayMazeByWindow();
 }
 
 void Maze::searchFinalPosition(){
@@ -157,14 +163,24 @@ void Maze::searchFinalPosition(){
 
     navigator(matrix[1][1], matrix[0][1], stackCounters, counter1, possibleEndings);
 
-    cout << "nro PossibleEndings: " << possibleEndings.size() << "\n";
+    // cout << "nro PossibleEndings: " << possibleEndings.size() << "\n";
+    // for(int i=0;i<possibleEndings.size();i++){
+    //     cout << "(" <<possibleEndings[i].first->getPosX() << ", " << possibleEndings[i].first->getPosY() << ") distance: " << possibleEndings[i].second << "\n";
+    // } cout << endl;
+
+    int maxDistance = 0;
+    int iter = 0;
     for(int i=0;i<possibleEndings.size();i++){
-        cout << "(" <<possibleEndings[i].first->getPosX() << ", " << possibleEndings[i].first->getPosY() << ") distance: " << possibleEndings[i].second << "\n";
-    } cout << endl;
+        if(possibleEndings[i].second > maxDistance){
+            maxDistance = possibleEndings[i].second;
+            iter = i;
+        }
+    }
+    finalPosition = {possibleEndings[iter].first->getPosX(),possibleEndings[iter].first->getPosY()};
 }
 
 void Maze::navigator(Cell const& targetCell, Cell const& pastCell, vector<int>& stackCounters, int& counter, vector<pair<Cell const*,int>>& possibleEndings){
-    cout << "counter: " << counter << "("<< targetCell.getPosX() <<","<< targetCell.getPosY() <<")\n";
+    //cout << "counter: " << counter << "("<< targetCell.getPosX() <<","<< targetCell.getPosY() <<")\n";
     int numWALLS = 0;
     if(targetCell.up->getCellType() == cellType::WALL){ numWALLS++; }
     if(targetCell.down->getCellType() == cellType::WALL){ numWALLS++; }
@@ -215,7 +231,21 @@ void Maze::navigator(Cell const& targetCell, Cell const& pastCell, vector<int>& 
     }
 }
 
-void Maze::setFinalPosition(int x , int y){
-    finalPosition[0] = x;
-    finalPosition[1] = y;
+void Maze::displayMazeByTerminal() const{
+    for(int i=0;i<dimension;i++){
+        for(int j=0;j<dimension;j++){
+            if( matrix[i][j].getPosX() == startPosition[0] && matrix[i][j].getPosY() == startPosition[1] ){
+                cout << "A";
+            }
+            else if( matrix[i][j].getPosX() == finalPosition[0] && matrix[i][j].getPosY() == finalPosition[1] ){
+                cout << "B";
+            }
+            else{
+                if( matrix[i][j].getCellType()==cellType::PATH ){ cout << " "; }
+                else if( matrix[i][j].getCellType()==cellType::WALL ){ cout << "*"; }
+            }
+
+            if(j==dimension-1){ cout << "\n"; }
+        }
+    } cout <<"\n";
 }

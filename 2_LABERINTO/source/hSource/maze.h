@@ -9,13 +9,13 @@ using namespace std;
 class Maze{
 public:
     Maze(int n);
-    const vector<vector<Cell>>& getMaze();
-    void displayMaze() const;
+    const vector<vector<Cell>>& getMaze() const;
+    void displayMazeByWindow() const;
+    void displayMazeByTerminal() const;
+private:
     void generator(Cell& targetCell, Cell const& pastCell);
     void searchFinalPosition();
     void navigator(Cell const& targetCell, Cell const& pastCell, vector<int>& counters, int& counter, vector<pair<Cell const*,int>>& possibleEndings);
-    void setFinalPosition(int x , int y);
-private:
     vector<vector<Cell>> matrix;
     int dimension;
     vector<int> startPosition = {1,1};
