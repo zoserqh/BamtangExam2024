@@ -46,19 +46,19 @@ En caso no tenga instalado openCV, se sugiere comentar las lineas donde openCV s
 ## Resultados
 Generación de un laberinto de dimension 5x5:
 
-![Alt text](https://github.com/zoserqh/BamtangExam2024/blob/main/2_LABERINTO/data/mazeWindow5.png "mazeWindow5")
+![Alt text](data/mazeWindow5.png "mazeWindow5")
 
-![Alt text](https://github.com/zoserqh/BamtangExam2024/blob/main/2_LABERINTO/data/mazeTerminal5.png "mazeTerminal5")
+![Alt text](data/mazeTerminal5.png "mazeTerminal5")
 
 Generación de un laberinto de dimension 15x15:
 
-![Alt text](https://github.com/zoserqh/BamtangExam2024/blob/main/2_LABERINTO/data/mazeWindow15.png "mazeWindow15")
+![Alt text](data/mazeWindow15.png "mazeWindow15")
 
-![Alt text](https://github.com/zoserqh/BamtangExam2024/blob/main/2_LABERINTO/data/mazeTerminal15.png "mazeTerminal15")
+![Alt text](data/mazeTerminal15.png "mazeTerminal15")
 
 Generación de un laberinto de dimension 45x45:
 
-![Alt text](https://github.com/zoserqh/BamtangExam2024/blob/main/2_LABERINTO/data/mazeWindow45.png "mazeWindow45")
+![Alt text](data/mazeWindow45.png "mazeWindow45")
 
-![Alt text](https://github.com/zoserqh/BamtangExam2024/blob/main/2_LABERINTO/data/mazeTerminal45.png "mazeTerminal45")
+![Alt text](data/mazeTerminal45.png "mazeTerminal45")
 
