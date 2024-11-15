@@ -44,3 +44,4 @@ Para ejecutar, ubicarse dentro de la carpeta exec
 En caso no tenga instalado openCV, se sugiere comentar las lineas donde openCV sea usado y tambien comentar el método displayMazeByWindow().
 
 ## Resultados
+![Alt text](https://github.com/zoserqh/BamtangExam2024/blob/main/2_LABERINTO/data/mazeWindow45 "mazeWindow45")
