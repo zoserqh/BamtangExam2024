@@ -8,6 +8,7 @@
 using namespace std;
 class Maze{
 public:
+    Maze();
     Maze(int n);
     const vector<vector<Cell>>& getMaze() const;
     void displayMazeByWindow() const;
@@ -22,4 +23,4 @@ private:
     vector<int> finalPosition = {1,1};
 };
 
-void createMaze2D(int n); 
+Maze createMaze2D(int n); 

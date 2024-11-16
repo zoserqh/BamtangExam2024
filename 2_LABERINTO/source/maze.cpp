@@ -1,6 +1,8 @@
 #include "hSource/maze.h"
 #include "hSource/cell.h"
 
+Maze::Maze(){ }
+
 Maze::Maze(int n){
     dimension = n;
 
@@ -145,17 +147,6 @@ void Maze::displayMazeByWindow() const {
     cv::waitKey(0);
 }
 
-void createMaze2D(int n){
-    if(n<=3 || n%2==0){
-        cout << "invalid value of the dimensions of the maze\n";
-        return;
-    }
-    
-    Maze myMaze(n);
-    myMaze.displayMazeByTerminal();
-    myMaze.displayMazeByWindow();
-}
-
 void Maze::searchFinalPosition(){
     vector<int> stackCounters;
     int counter1 = 0;
@@ -248,4 +239,15 @@ void Maze::displayMazeByTerminal() const{
             if(j==dimension-1){ cout << "\n"; }
         }
     } cout <<"\n";
+}
+
+Maze createMaze2D(int n){
+    if(n<=3 || n%2==0){
+        cout << "invalid value of the dimensions of the maze, valid value is >3 and odd for example 5\n";
+        Maze myMaze(5);
+        return myMaze;
+    }
+
+    Maze myMaze(n);
+    return myMaze;
 }
