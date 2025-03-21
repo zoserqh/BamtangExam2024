@@ -272,15 +272,8 @@ void Maze::configRender(unsigned int Width, unsigned int Height)
 {
     // load shaders
     ResourceManager::LoadShader("../resources/shaders/piece_vs.glsl", "../resources/shaders/piece_fs.glsl", nullptr, "piece");
-    ResourceManager::GetShader("piece").Use();
     
-    // configure shaders
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::scale(model,glm::vec3(100.0f,100.0f,1.0f));
-    model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-    ResourceManager::GetShader("piece").SetMatrix4("model", model);
-
+    ResourceManager::GetShader("piece").Use();
     glm::mat4 projection = glm::ortho(-1*static_cast<float>(Width)/2, static_cast<float>(Width)/2, 
                                       -1*static_cast<float>(Height)/2, static_cast<float>(Height)/2, -1.0f, 1.0f);
     ResourceManager::GetShader("piece").SetMatrix4("projection", projection);
@@ -310,7 +303,13 @@ void Maze::configRender(unsigned int Width, unsigned int Height)
 
 void Maze::drawMaze2D() const
 {
+    // for(int i=0;i<dimension*dimension; i++){
+
+    // }
     ResourceManager::GetShader("piece").Use();
+    ResourceManager::GetShader("piece").SetFloat("angle", 0.0f);
+    ResourceManager::GetShader("piece").SetFloat("scale", 100.0f);
+    ResourceManager::GetShader("piece").SetVector2f("translateXY", glm::vec2(100.0f, 200.0f));
     glBindVertexArray(VAOsPieces[0]);
     glDrawArrays(GL_TRIANGLES, 0, sizePiece1);
 }
