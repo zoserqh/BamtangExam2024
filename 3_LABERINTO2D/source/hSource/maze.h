@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <random>
 #include "cell.h"
+#include "resource_manager.h"
 
 using namespace std;
 class Maze{
@@ -12,6 +13,12 @@ public:
     Maze(int n);
     const vector<vector<Cell>>& getMaze() const;
     void displayMazeByTerminal() const;
+
+    //render
+    unsigned int VBOsPieces[5];
+    unsigned int VAOsPieces[5];
+    void configRender(unsigned int Width, unsigned int Height);
+    void drawMaze2D() const;
 private:
     void generator(Cell& targetCell, Cell const& pastCell);
     void searchFinalPosition();

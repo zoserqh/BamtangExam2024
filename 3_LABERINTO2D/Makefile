@@ -40,7 +40,7 @@ build/cell.o : source/cell.cpp
 
 build/maze.o : source/maze.cpp
 	mkdir -p $(BUILD_DIR)
-	$(CXX) -c $^ -o $@
+	$(CXX) -c $^ -Isource/include/ -o $@
 	
 build/main.o : source/main.cpp
 	mkdir -p $(BUILD_DIR)

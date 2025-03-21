@@ -1,6 +1,43 @@
 
 #include "hSource/maze.h"
 #include "hSource/cell.h"
+#include "hSource/resource_manager.h"
+
+int sizePiece1 = 480;
+float* piece1 = new float[sizePiece1]{
+    // positions            // colors
+    -0.5f, 0.5f,        0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+    -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
+
+    -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+    -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
+
+    -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+    0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
+
+    0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
+    0.375f, -0.375f,    0.5f, 0.5f, 0.5f,
+    -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
+
+    0.375f, -0.375f,    0.5f, 0.5f, 0.5f,
+    0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
+    0.5f, 0.5f,         0.5f, 0.5f, 0.5f,
+
+    0.5f, 0.5f,         0.5f, 0.5f, 0.5f,
+    0.375f, 0.5f,       0.5f, 0.5f, 0.5f,
+    0.375f, -0.375f,    0.5f, 0.5f, 0.5f,
+
+    -0.375f, 0.5f,      1.0f, 0.586f, 0.0f,
+    -0.375f, -0.375f,   1.0f, 0.586f, 0.0f,
+    0.375f, -0.375f,    1.0f, 0.586f, 0.0f,
+
+    0.375f, -0.375f,    1.0f, 0.586f, 0.0f,
+    0.375f, 0.5f,       1.0f, 0.586f, 0.0f,
+    -0.375f, 0.5f,      1.0f, 0.586f, 0.0f
+    };
 
 Maze::Maze(){ }
 
@@ -229,4 +266,51 @@ Maze createMaze2D(int n){
 
     Maze myMaze(n);
     return myMaze;
+}
+
+void Maze::configRender(unsigned int Width, unsigned int Height)
+{
+    // load shaders
+    ResourceManager::LoadShader("../resources/shaders/piece_vs.glsl", "../resources/shaders/piece_fs.glsl", nullptr, "piece");
+    ResourceManager::GetShader("piece").Use();
+    
+    // configure shaders
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::scale(model,glm::vec3(100.0f,100.0f,1.0f));
+    model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+    ResourceManager::GetShader("piece").SetMatrix4("model", model);
+
+    glm::mat4 projection = glm::ortho(-1*static_cast<float>(Width)/2, static_cast<float>(Width)/2, 
+                                      -1*static_cast<float>(Height)/2, static_cast<float>(Height)/2, -1.0f, 1.0f);
+    ResourceManager::GetShader("piece").SetMatrix4("projection", projection);
+
+    // configure VAO/VBO
+    unsigned int VBO;
+    glGenVertexArrays(1, &VAOsPieces[0]);
+    glGenBuffers(1, &VBO);
+
+    glBindVertexArray(VAOsPieces[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizePiece1, piece1, GL_STATIC_DRAW);
+
+    // position attribute
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    std::cout << "ResourceManager::GetShader(\"piece\").ID: " << ResourceManager::GetShader("piece").ID << "\n";
+    std::cout << "VAOsPieces[0]: " << VAOsPieces[0] << "\n";
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
+void Maze::drawMaze2D() const
+{
+    ResourceManager::GetShader("piece").Use();
+    glBindVertexArray(VAOsPieces[0]);
+    glDrawArrays(GL_TRIANGLES, 0, sizePiece1);
 }

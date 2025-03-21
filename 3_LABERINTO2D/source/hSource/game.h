@@ -13,6 +13,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "game_object.h"
+#include "maze.h"
 #include "shader.h"
 
 // Represents the current state of the game
@@ -31,19 +32,14 @@ public:
     unsigned int            Width, Height;
     
     //elements
-    GameObject* letterA;
-    GameObject* letterB;
+    // GameObject* letterA;
+    // GameObject* letterB;
     GameObject* ball;
-    std::vector<GameObject*> pieces;
-
-    //shaders
-    // Shader shader;
-
-    //VAOs
-    unsigned int VAOsPieces[5];
+    Maze* maze;
+    // std::vector<GameObject*> pieces;
 
     // constructor/destructor
-    Game(unsigned int width, unsigned int height);
+    Game(unsigned int width, unsigned int height,Maze& mazeTarget);
     ~Game();
     // initialize game state (load all shaders/textures/levels)
     void Init();

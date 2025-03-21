@@ -24,11 +24,11 @@ const unsigned int SCREEN_WIDTH = 800;
 // The height of the screen
 const unsigned int SCREEN_HEIGHT = 800;
 
-Game gameMaze(SCREEN_WIDTH, SCREEN_HEIGHT);
+Maze myMaze;
+Game gameMaze(SCREEN_WIDTH, SCREEN_HEIGHT, myMaze);
 
 int main(int argc, char *argv[])
 {
-    Maze myMaze;
     myMaze = createMaze2D(11);
     myMaze.displayMazeByTerminal();
 
