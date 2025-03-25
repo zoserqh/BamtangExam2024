@@ -3,42 +3,6 @@
 #include "hSource/cell.h"
 #include "hSource/resource_manager.h"
 
-int sizePiece1 = 480;
-float* piece1 = new float[sizePiece1]{
-    // positions            // colors
-    -0.5f, 0.5f,        0.5f, 0.5f, 0.5f,
-    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
-    -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
-
-    -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
-    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
-    -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
-
-    -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
-    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
-    0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
-
-    0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
-    0.375f, -0.375f,    0.5f, 0.5f, 0.5f,
-    -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
-
-    0.375f, -0.375f,    0.5f, 0.5f, 0.5f,
-    0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
-    0.5f, 0.5f,         0.5f, 0.5f, 0.5f,
-
-    0.5f, 0.5f,         0.5f, 0.5f, 0.5f,
-    0.375f, 0.5f,       0.5f, 0.5f, 0.5f,
-    0.375f, -0.375f,    0.5f, 0.5f, 0.5f,
-
-    -0.375f, 0.5f,      1.0f, 0.586f, 0.0f,
-    -0.375f, -0.375f,   1.0f, 0.586f, 0.0f,
-    0.375f, -0.375f,    1.0f, 0.586f, 0.0f,
-
-    0.375f, -0.375f,    1.0f, 0.586f, 0.0f,
-    0.375f, 0.5f,       1.0f, 0.586f, 0.0f,
-    -0.375f, 0.5f,      1.0f, 0.586f, 0.0f
-    };
-
 Maze::Maze(){ }
 
 Maze::Maze(int n){
@@ -278,38 +242,329 @@ void Maze::configRender(unsigned int Width, unsigned int Height)
                                       -1*static_cast<float>(Height)/2, static_cast<float>(Height)/2, -1.0f, 1.0f);
     ResourceManager::GetShader("piece").SetMatrix4("projection", projection);
 
+    //sidePiece
+    float totalside;
+    Width <= Height ? totalside=Width : totalside=Height;
+
+    sidePiece = 0.9*totalside/dimension;
+
+    //pieces data
+    lengthPieces[0]=120;
+    pieces[0] = new float[lengthPieces[0]]{
+        // positions            // colors
+        -0.5f, 0.5f,        0.5f, 0.5f, 0.5f,
+        -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+        -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
+    
+        -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
+        -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+        -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
+    
+        -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
+        -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+        0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
+    
+        0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
+        0.375f, -0.375f,    0.5f, 0.5f, 0.5f,
+        -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
+    
+        0.375f, -0.375f,    0.5f, 0.5f, 0.5f,
+        0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
+        0.5f, 0.5f,         0.5f, 0.5f, 0.5f,
+    
+        0.5f, 0.5f,         0.5f, 0.5f, 0.5f,
+        0.375f, 0.5f,       0.5f, 0.5f, 0.5f,
+        0.375f, -0.375f,    0.5f, 0.5f, 0.5f,
+    
+        -0.375f, 0.5f,      1.0f, 0.586f, 0.0f,
+        -0.375f, -0.375f,   1.0f, 0.586f, 0.0f,
+        0.375f, -0.375f,    1.0f, 0.586f, 0.0f,
+    
+        0.375f, -0.375f,    1.0f, 0.586f, 0.0f,
+        0.375f, 0.5f,       1.0f, 0.586f, 0.0f,
+        -0.375f, 0.5f,      1.0f, 0.586f, 0.0f
+    };
+    
+    lengthPieces[1] = 90;
+    pieces[1] = new float[lengthPieces[1]]{
+    // positions            // colors
+    -0.5f, 0.5f,        0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+    -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
+
+    -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+    -0.375f, -0.5f,     0.5f, 0.5f, 0.5f,
+
+    -0.375f, -0.5f,     1.0f, 0.586f, 0.0f,
+    0.375f, 0.5f,       1.0f, 0.586f, 0.0f,
+    -0.375f, 0.5f,      1.0f, 0.586f, 0.0f,
+
+    0.375f, 0.5f,       1.0f, 0.586f, 0.0f,
+    -0.375f, -0.5f,     1.0f, 0.586f, 0.0f,
+    0.375f, -0.5f,      1.0f, 0.586f, 0.0f,
+
+    0.375f, -0.5f,      0.5f, 0.5f, 0.5f,
+    0.5f, 0.5f,         0.5f, 0.5f, 0.5f,
+    0.375f, 0.5f,       0.5f, 0.5f, 0.5f,
+
+    0.5f, 0.5f,         0.5f, 0.5f, 0.5f,
+    0.375f, -0.5f,      0.5f, 0.5f, 0.5f,
+    0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
+    };
+
+    lengthPieces[2] = 90;
+    pieces[2] = new float[lengthPieces[2]]{
+    // positions            // colors
+    -0.5f, 0.5f,        0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+    -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
+
+    -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+    -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
+
+    -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+    0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
+
+    0.5f, -0.5f,        0.5f, 0.5f, 0.5f,
+    0.5f, -0.375f,      0.5f, 0.5f, 0.5f,
+    -0.375f, -0.375f,   0.5f, 0.5f, 0.5f,
+
+    -0.375f, 0.5f,      1.0f, 0.586f, 0.0f,
+    -0.375f, -0.375f,   1.0f, 0.586f, 0.0f,
+    0.5f, 0.5f,         1.0f, 0.586f, 0.0f,
+
+    0.5f, 0.5f,         1.0f, 0.586f, 0.0f,
+    -0.375f, -0.375f,   1.0f, 0.586f, 0.0f,
+    0.5f, -0.375f,      1.0f, 0.586f, 0.0f,
+    };
+
+    lengthPieces[3] = 60;
+    pieces[3] = new float[lengthPieces[3]]{
+    // positions            // colors
+    -0.5f, 0.5f,        0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+    -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
+
+    -0.375f, 0.5f,      0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f,       0.5f, 0.5f, 0.5f,
+    -0.375f, -0.5f,     0.5f, 0.5f, 0.5f,
+    
+    -0.375f, -0.5f,     1.0f, 0.586f, 0.0f,
+    0.5f, 0.5f,         1.0f, 0.586f, 0.0f,
+    -0.375f, 0.5f,      1.0f, 0.586f, 0.0f,
+
+    0.5f, 0.5f,         1.0f, 0.586f, 0.0f,
+    -0.375f, -0.5f,     1.0f, 0.586f, 0.0f,
+    0.5f, -0.5f,        1.0f, 0.586f, 0.0f,
+    };
+
+    lengthPieces[4] = 30;
+    pieces[4] = new float[lengthPieces[4]]{
+    // positions            // colors
+    -0.5f, 0.5f,        1.0f, 0.586f, 0.0f,
+    -0.5f, -0.5f,       1.0f, 0.586f, 0.0f,
+    0.5f, 0.5f,         1.0f, 0.586f, 0.0f,
+
+    0.5f, 0.5f,         1.0f, 0.586f, 0.0f,
+    -0.5f, -0.5f,       1.0f, 0.586f, 0.0f,
+    0.5f, -0.5f,        1.0f, 0.586f, 0.0f,
+    };
+
     // configure VAO/VBO
-    unsigned int VBO;
-    glGenVertexArrays(1, &VAOsPieces[0]);
-    glGenBuffers(1, &VBO);
+    for(int i=0;i<5;i++){
+        glGenVertexArrays(1, &VAOsPieces[i]);
+        glGenBuffers(1, &VBOsPieces[i]);
 
-    glBindVertexArray(VAOsPieces[0]);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizePiece1, piece1, GL_STATIC_DRAW);
-
-    // position attribute
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    std::cout << "ResourceManager::GetShader(\"piece\").ID: " << ResourceManager::GetShader("piece").ID << "\n";
-    std::cout << "VAOsPieces[0]: " << VAOsPieces[0] << "\n";
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+        glBindVertexArray(VAOsPieces[i]);
+        glBindBuffer(GL_ARRAY_BUFFER, VBOsPieces[i]);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float)*lengthPieces[i], pieces[i], GL_STATIC_DRAW);
+        // position attribute
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+        // color attribute
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+        //unbind
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+        //
+        delete [] pieces[i];
+    }
 }
 
 void Maze::drawMaze2D() const
 {
-    // for(int i=0;i<dimension*dimension; i++){
-
-    // }
-    ResourceManager::GetShader("piece").Use();
-    ResourceManager::GetShader("piece").SetFloat("angle", 0.0f);
-    ResourceManager::GetShader("piece").SetFloat("scale", 100.0f);
-    ResourceManager::GetShader("piece").SetVector2f("translateXY", glm::vec2(100.0f, 200.0f));
-    glBindVertexArray(VAOsPieces[0]);
-    glDrawArrays(GL_TRIANGLES, 0, sizePiece1);
+    for(int i=0;i<dimension; i++){
+        for(int j=0;j<dimension; j++){
+            if(matrix[i][j].getCellType() == cellType::WALL){
+                float currAngle = 0.0f;
+                glm::vec2 currPos = glm::vec2(0.0f,0.0f);
+                unsigned int currVAO = VAOsPieces[0];
+                int currLength = lengthPieces[0];
+                
+                currPos.x =-(dimension-1.0)*sidePiece/2.0 + sidePiece*j;
+                currPos.y =(dimension-1.0)*sidePiece/2.0 - sidePiece*i;
+                
+                //corners
+                if( (i==0 && j==0) || (i== dimension-1 && j==0) ||
+                    (i== dimension-1 && j== dimension-1) || (i==0 && j== dimension-1) ){
+                        configCorner(i, j, currAngle, currVAO, currLength);
+                }
+                //perimeter
+                else if( i==0 || i==dimension-1 || j==0 || j==dimension-1 ){
+                    configPerimeter(i, j, currAngle, currVAO, currLength);
+                }
+                //interior
+                else{
+                    configInterior(i, j, currAngle, currVAO, currLength);
+                }
+                
+                ResourceManager::GetShader("piece").Use();
+                ResourceManager::GetShader("piece").SetFloat("angle", currAngle);
+                ResourceManager::GetShader("piece").SetFloat("scale", sidePiece);
+                ResourceManager::GetShader("piece").SetVector2f("translateXY", currPos);
+                glBindVertexArray(currVAO);
+                glDrawArrays(GL_TRIANGLES, 0,currLength);
+            }
+        }
+    }
 }
+
+void Maze::configCorner(int _i, int _j, float& _currAngle, unsigned int& _currVAO, int& _currLength) const 
+{
+    _currVAO = VAOsPieces[2];
+    _currLength = lengthPieces[2];
+    if(_i==0 && _j==0){ _currAngle = 270.0f;}
+    else if(_i==dimension-1 && _j==0){ _currAngle = 0.0f;}
+    else if(_i==dimension-1 && _j==dimension-1){ _currAngle = 90.0f;}
+    else if(_i==0 && _j==dimension-1){ _currAngle = 180.0f;}
+}
+
+void Maze::configPerimeter(int _i, int _j, float& _currAngle, unsigned int& _currVAO, int& _currLength) const
+{
+    if(_i==0){
+        if(matrix[_i][_j].down->getCellType() == cellType::WALL){
+            _currVAO = VAOsPieces[3];
+            _currLength = lengthPieces[3];
+            _currAngle = 270.0f;
+        }
+        else {
+            _currVAO = VAOsPieces[1];
+            _currLength = lengthPieces[1];
+            _currAngle = 90.0f;
+        }
+    }
+    else if(_i==dimension-1){
+        if(matrix[_i][_j].up->getCellType() == cellType::WALL){
+            _currVAO = VAOsPieces[3];
+            _currLength = lengthPieces[3];
+            _currAngle = 90.0f;
+        }
+        else {
+            _currVAO = VAOsPieces[1];
+            _currLength = lengthPieces[1];
+            _currAngle = 90.0f;
+        }
+    }
+    else if(_j==0){
+        if(matrix[_i][_j].right->getCellType() == cellType::WALL){
+            _currVAO = VAOsPieces[3];
+            _currLength = lengthPieces[3];
+            _currAngle = 0.0f;
+        }
+        else {
+            _currVAO = VAOsPieces[1];
+            _currLength = lengthPieces[1];
+            _currAngle = 0.0f;
+        }
+    }
+    else if(_j==dimension-1){
+        if(matrix[_i][_j].left->getCellType() == cellType::WALL){
+            _currVAO = VAOsPieces[3];
+            _currLength = lengthPieces[3];
+            _currAngle = 180.0f;
+        }
+        else {
+            _currVAO = VAOsPieces[1];
+            _currLength = lengthPieces[1];
+            _currAngle = 0.0f;
+        }
+    }
+}
+
+void Maze::configInterior(int _i, int _j, float& _currAngle, unsigned int& _currVAO, int& _currLength) const
+{
+    int numWallsNearby=0;
+    if(matrix[_i][_j].up->getCellType() == cellType::WALL){ numWallsNearby++; }
+    if(matrix[_i][_j].right->getCellType() == cellType::WALL){ numWallsNearby++; }
+    if(matrix[_i][_j].down->getCellType() == cellType::WALL){ numWallsNearby++; }
+    if(matrix[_i][_j].left->getCellType() == cellType::WALL){ numWallsNearby++; }
+    
+    // std::cout << "numWallsNearby: " << numWallsNearby << "\n";
+    if(numWallsNearby == 1){
+        _currVAO = VAOsPieces[0];
+        _currLength = lengthPieces[0];
+        if(matrix[_i][_j].up->getCellType() == cellType::WALL){ _currAngle = 0.0f; }
+        else if(matrix[_i][_j].left->getCellType() == cellType::WALL){ _currAngle = 90.0f; }
+        else if(matrix[_i][_j].down->getCellType() == cellType::WALL){ _currAngle = 180.0f; }
+        else if(matrix[_i][_j].right->getCellType() == cellType::WALL){ _currAngle = 270.0f; }
+    }
+    else if(numWallsNearby == 2){
+        if( matrix[_i][_j].up->getCellType() == cellType::WALL &&
+            matrix[_i][_j].down->getCellType() == cellType::WALL){ 
+                _currVAO = VAOsPieces[1];
+                _currLength = lengthPieces[1];
+                _currAngle = 0.0f;
+        }
+        else if( matrix[_i][_j].right->getCellType() == cellType::WALL &&
+                matrix[_i][_j].left->getCellType() == cellType::WALL){ 
+                _currVAO = VAOsPieces[1];
+                _currLength = lengthPieces[1];
+                _currAngle = 90.0f;
+        }
+        //
+        else if( matrix[_i][_j].up->getCellType() == cellType::WALL &&
+                matrix[_i][_j].right->getCellType() == cellType::WALL){ 
+                _currVAO = VAOsPieces[2];
+                _currLength = lengthPieces[2];
+                _currAngle = 0.0f;
+        }
+        else if( matrix[_i][_j].up->getCellType() == cellType::WALL &&
+                matrix[_i][_j].left->getCellType() == cellType::WALL){ 
+                _currVAO = VAOsPieces[2];
+                _currLength = lengthPieces[2];
+                _currAngle = 90.0f;
+        }
+        else if( matrix[_i][_j].down->getCellType() == cellType::WALL &&
+                matrix[_i][_j].left->getCellType() == cellType::WALL){ 
+                _currVAO = VAOsPieces[2];
+                _currLength = lengthPieces[2];
+                _currAngle = 180.0f;
+        }
+        else if( matrix[_i][_j].down->getCellType() == cellType::WALL &&
+                matrix[_i][_j].right->getCellType() == cellType::WALL){
+                // std::cout<< "here xS\n";
+                _currVAO = VAOsPieces[2];
+                _currLength = lengthPieces[2];
+                _currAngle = 270.0f;
+        }
+    } 
+    else if(numWallsNearby == 3){
+        _currVAO = VAOsPieces[3];
+        _currLength = lengthPieces[3];
+        if(matrix[_i][_j].left->getCellType() == cellType::PATH){ _currAngle = 0.0f; }
+        if(matrix[_i][_j].down->getCellType() == cellType::PATH){ _currAngle = 90.0f; }
+        if(matrix[_i][_j].right->getCellType() == cellType::PATH){ _currAngle = 180.0f; }
+        if(matrix[_i][_j].up->getCellType() == cellType::PATH){ _currAngle = 270.0f; }
+    } 
+    else if(numWallsNearby == 4){
+        _currVAO = VAOsPieces[4];
+        _currLength = lengthPieces[4];
+        _currAngle = 0.0f;
+    }
+}
+// std::cout << "ResourceManager::GetShader(\"piece\").ID: " << ResourceManager::GetShader("piece").ID << "\n";
+//     std::cout << "VAOsPieces[0]: " << VAOsPieces[0] << "\n";
