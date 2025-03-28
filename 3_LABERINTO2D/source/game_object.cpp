@@ -7,14 +7,43 @@
 ** option) any later version.
 ******************************************************************/
 #include "hSource/game_object.h"
+#include "hSource/resource_manager.h"
 
 GameObject::GameObject() 
-    : Position(0.0f, 0.0f), Size(1.0f, 1.0f), Velocity(0.0f), Rotation(0.0f), pieceData(NULL){ }
+    : position(0.0f, 0.0f), sideObject(1.0f), velocity(glm::vec2(0.0f)) { }
 
-GameObject::GameObject(glm::vec2 pos, glm::vec2 size, glm::vec2 velocity, float rot, float* pData) 
-    : Position(pos), Size(size), Velocity(velocity), Rotation(rot), pieceData(pData){ }
+GameObject::GameObject(glm::vec2 pos, float sideObj, glm::vec2 velocity, float* dataO, int lenData) 
+    : position(pos), sideObject(sideObj), velocity(velocity), dataObject(dataO), lengthData(lenData) { }
 
-// void GameObject::Draw(SpriteRenderer &renderer)
-// {
-//     renderer.DrawSprite(this->Sprite, this->Position, this->Size, this->Rotation, this->Color);
-// }
+void GameObject::configRender(unsigned int Width, unsigned int Height)
+{
+    ResourceManager::GetShader("gameObject").Use();
+    glm::mat4 projection = glm::ortho(-1*static_cast<float>(Width)/2, static_cast<float>(Width)/2, 
+                                      -1*static_cast<float>(Height)/2, static_cast<float>(Height)/2, -1.0f, 1.0f);
+    ResourceManager::GetShader("gameObject").SetMatrix4("projection", projection);
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*lengthData, dataObject, GL_STATIC_DRAW);
+    // position attribute
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    //unbind
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
+void GameObject::drawObject() const
+{
+    ResourceManager::GetShader("gameObject").Use();
+    ResourceManager::GetShader("gameObject").SetFloat("scale", sideObject);
+    ResourceManager::GetShader("gameObject").SetVector2f("translateXY", position);
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0,lengthData);
+}

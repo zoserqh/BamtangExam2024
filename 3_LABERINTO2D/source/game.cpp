@@ -24,13 +24,138 @@ Game::~Game()
 
 void Game::Init()
 {
+    // load shaders
+    ResourceManager::LoadShader("../resources/shaders/piece_vs.glsl", "../resources/shaders/piece_fs.glsl", nullptr, "piece");
+    ResourceManager::LoadShader("../resources/shaders/gameObject_vs.glsl", "../resources/shaders/gameObject_fs.glsl", nullptr, "gameObject");
+    ResourceManager::LoadShader("../resources/shaders/background_vs.glsl", "../resources/shaders/background_fs.glsl", nullptr, "background");
+
+    //config Maze
     maze->configRender(Width,Height);
-    // glm::vec2 pos(1,1);
-    // glm::vec2 size(50,50);
-    // glm::vec2 vel(0,0);
-    // float rot(0);
-    // GameObject* p = new GameObject(pos,size,vel,rot,piece1);
-    // pieces.push_back(p);
+
+    //config letters
+    int lengthDataLetterA = 105;
+    float* dataLetterA = new float[lengthDataLetterA]{
+        // positions            // colors
+        -0.125f, 0.5f,        0.5f, 0.5f, 0.5f,
+        -0.5f, -0.5f,         0.5f, 0.5f, 0.5f,
+        -0.328125f, -0.5f,    0.5f, 0.5f, 0.5f,
+
+        -0.125f, 0.5f,        0.5f, 0.5f, 0.5f,
+        -0.328125f, -0.5f,    0.5f, 0.5f, 0.5f,
+        0.0f, 0.375f,         0.5f, 0.5f, 0.5f,
+
+        -0.1875f, -0.125f,    0.5f, 0.5f, 0.5f,
+        -0.28125f, -0.375f,   0.5f, 0.5f, 0.5f,
+        0.1875f, -0.125f,     0.5f, 0.5f, 0.5f,
+
+        0.1875f, -0.125f,     0.5f, 0.5f, 0.5f,
+        -0.28125f, -0.375f,   0.5f, 0.5f, 0.5f,
+        0.28125f, -0.375f,    0.5f, 0.5f, 0.5f,
+        
+        0.125f, 0.5f,         0.5f, 0.5f, 0.5f,
+        0.0f, 0.375f,         0.5f, 0.5f, 0.5f,
+        0.328125f, -0.5f,     0.5f, 0.5f, 0.5f,
+
+        0.328125f, -0.5f,     0.5f, 0.5f, 0.5f,
+        0.5f, -0.5f,          0.5f, 0.5f, 0.5f,
+        0.125f, 0.5f,         0.5f, 0.5f, 0.5f,
+
+        0.125f, 0.5f,         0.5f, 0.5f, 0.5f,
+        -0.125f, 0.5f,        0.5f, 0.5f, 0.5f,
+        0.0f, 0.375f,         0.5f, 0.5f, 0.5f,
+    };
+
+    int lengthDataLetterB = 240;
+    float* dataLetterB = new float[lengthDataLetterB]{
+        // positions            // colors
+        -0.5f, 0.5f,            0.5f, 0.5f, 0.5f,
+        -0.5f, -0.5f,           0.5f, 0.5f, 0.5f,
+        -0.25f, -0.375f,        0.5f, 0.5f, 0.5f,
+
+        -0.5f, -0.5f,           0.5f, 0.5f, 0.5f,
+        0.125f, -0.5f,          0.5f, 0.5f, 0.5f,
+        -0.25f, -0.375f,        0.5f, 0.5f, 0.5f,
+
+        0.125f, -0.5f,          0.5f, 0.5f, 0.5f,
+        0.375f, -0.375f,        0.5f, 0.5f, 0.5f,
+        -0.25f, -0.375f,        0.5f, 0.5f, 0.5f,
+
+        0.375f, -0.375f,        0.5f, 0.5f, 0.5f,
+        0.125f, -0.25f,         0.5f, 0.5f, 0.5f,
+        0.0f, -0.375f,          0.5f, 0.5f, 0.5f,
+
+        0.125f, -0.25f,         0.5f, 0.5f, 0.5f,
+        0.375f, -0.375f,        0.5f, 0.5f, 0.5f,
+        0.375f, -0.125f,        0.5f, 0.5f, 0.5f,
+
+        0.125f, -0.25f,         0.5f, 0.5f, 0.5f,
+        0.375f, -0.125f,        0.5f, 0.5f, 0.5f,
+        0.125f, 0.0f,           0.5f, 0.5f, 0.5f,
+
+        0.125f, -0.25f,         0.5f, 0.5f, 0.5f,
+        0.125f, 0.25f,          0.5f, 0.5f, 0.5f,
+        0.0f, -0.125f,          0.5f, 0.5f, 0.5f,
+
+        0.0f, -0.125f,          0.5f, 0.5f, 0.5f,
+        0.125f, 0.25f,          0.5f, 0.5f, 0.5f,
+        0.0f, 0.125f,           0.5f, 0.5f, 0.5f,
+
+        0.0f, 0.125f,           0.5f, 0.5f, 0.5f,
+        -0.25f, 0.125f,         0.5f, 0.5f, 0.5f,
+        0.0f, -0.125f,          0.5f, 0.5f, 0.5f,
+
+        0.0f, -0.125f,          0.5f, 0.5f, 0.5f,
+        -0.25f, 0.125f,         0.5f, 0.5f, 0.5f,
+        -0.25f, -0.125f,        0.5f, 0.5f, 0.5f,
+
+        0.125f, 0.25f,          0.5f, 0.5f, 0.5f,
+        0.125f, 0.0f,           0.5f, 0.5f, 0.5f,
+        0.375f, 0.125f,         0.5f, 0.5f, 0.5f,
+
+        0.125f, 0.25f,          0.5f, 0.5f, 0.5f,
+        0.375f, 0.125f,         0.5f, 0.5f, 0.5f,
+        0.375f, 0.375f,         0.5f, 0.5f, 0.5f,
+
+        0.125f, 0.25f,          0.5f, 0.5f, 0.5f,
+        0.375f, 0.375f,         0.5f, 0.5f, 0.5f,
+        0.0f, 0.375f,           0.5f, 0.5f, 0.5f,
+
+        0.375f, 0.375f,         0.5f, 0.5f, 0.5f,
+        0.125f, 0.5f,           0.5f, 0.5f, 0.5f,
+        -0.25f, 0.375f,         0.5f, 0.5f, 0.5f,
+
+        0.125f, 0.5f,           0.5f, 0.5f, 0.5f,
+        -0.5f, 0.5f,            0.5f, 0.5f, 0.5f,
+        -0.25f, 0.375f,         0.5f, 0.5f, 0.5f,
+
+        -0.25f, 0.375f,         0.5f, 0.5f, 0.5f,
+        -0.5f, 0.5f,            0.5f, 0.5f, 0.5f,
+        -0.25f, -0.375f,        0.5f, 0.5f, 0.5f,
+    };
+
+    float sideLetter = maze->sidePiece*0.7;
+    float posxA =-(maze->getDimension()-1.0)*(maze->sidePiece)/2.0 + (maze->sidePiece)*(maze->getStartPosition()[0]);
+    float posyA =(maze->getDimension()-1.0)*(maze->sidePiece)/2.0 - (maze->sidePiece)*(maze->getStartPosition()[1]);
+
+    float posxB =-(maze->getDimension()-1.0)*(maze->sidePiece)/2.0 + (maze->sidePiece)*(maze->getFinalPosition()[0]);
+    float posyB =(maze->getDimension()-1.0)*(maze->sidePiece)/2.0 - (maze->sidePiece)*(maze->getFinalPosition()[1]);
+
+    glm::vec2 posA(posxA,posyA);
+    glm::vec2 posB(posxB,posyB);
+    letterA = new GameObject(posA, sideLetter, glm::vec2(0.0f,0.0f), dataLetterA, lengthDataLetterA);
+    letterB = new GameObject(posB, sideLetter, glm::vec2(0.0f,0.0f), dataLetterB, lengthDataLetterB);
+    
+    letterA->configRender(Width,Height);
+    letterB->configRender(Width,Height);
+
+    delete [] dataLetterA;
+    delete [] dataLetterB;
+    
+    //config mazeBackground
+    float totalside;
+    Width <= Height ? totalside=Width : totalside=Height;
+    mazeBackground = new Background(glm::vec2(0.0f,0.0f), totalside);
+    mazeBackground->configRender(Width,Height);
 }
 
 void Game::Update(float dt)
@@ -47,17 +172,31 @@ void Game::Render()
 {
     if(this->State == GAME_ACTIVE)
     {
-        // draw the maze once
-        maze->drawMaze2D();
-        //draw A
-        //draw B
+        // draw the maze and letters once
+        static int  key = 1;
+        if(key == 1){
+            glBindFramebuffer(GL_FRAMEBUFFER, mazeBackground->frameBuffer);
+            maze->drawMaze2D();
+            letterA->drawObject();
+            letterB->drawObject();
+            
+            //free up memory in GPU
+            for(int i =0;i<5;i++){
+                glDeleteVertexArrays(1, &maze->VAOsPieces[i]);
+                glDeleteBuffers(1, &maze->VBOsPieces[i]);
+            }
+            glDeleteVertexArrays(1, &letterA->VAO);
+            glDeleteBuffers(1, &letterB->VBO);
+
+            key++;
+        }
+        
+        // draw background
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        mazeBackground->drawBackground();
+        
         //draw circle
     }
 }
-
-// for(int i=0;i<4;i++){
-//     for(int j=0;j<4;j++){
-//         std::cout << projection[i][j] << " ";
-//     } std::cout << std::endl;
-// }
-// std::cout << "xD" << "\n";

@@ -5,7 +5,7 @@ BUILD_DIR = build
 SOURCE_CODE_DIR = source
 
 OBJECTS = build/game.o build/glad.o build/resource_manager.o \
-build/shader.o build/game_object.o \
+build/shader.o build/game_object.o build/background.o \
 build/cell.o build/maze.o build/main.o
 
 INCLUDE = -I/usr/include/ -Isource/include/
@@ -31,6 +31,10 @@ build/shader.o : source/shader.cpp
 	$(CXX) -c $^ -Isource/include/ -o $@
 
 build/game_object.o : source/game_object.cpp
+	mkdir -p $(BUILD_DIR)
+	$(CXX) -c $^ -Isource/include/ -o $@
+
+build/background.o : source/background.cpp
 	mkdir -p $(BUILD_DIR)
 	$(CXX) -c $^ -Isource/include/ -o $@
 

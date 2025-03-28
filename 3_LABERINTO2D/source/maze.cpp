@@ -127,6 +127,21 @@ const vector<vector<Cell>>& Maze::getMaze() const{
     return matrix;
 }
 
+vector<int> Maze::getStartPosition() const
+{
+    return startPosition;
+}
+
+vector<int> Maze::getFinalPosition() const
+{
+    return finalPosition;
+}
+
+int Maze::getDimension() const
+{
+    return dimension;
+}
+
 void Maze::searchFinalPosition(){
     vector<int> stackCounters;
     int counter1 = 0;
@@ -233,10 +248,7 @@ Maze createMaze2D(int n){
 }
 
 void Maze::configRender(unsigned int Width, unsigned int Height)
-{
-    // load shaders
-    ResourceManager::LoadShader("../resources/shaders/piece_vs.glsl", "../resources/shaders/piece_fs.glsl", nullptr, "piece");
-    
+{   
     ResourceManager::GetShader("piece").Use();
     glm::mat4 projection = glm::ortho(-1*static_cast<float>(Width)/2, static_cast<float>(Width)/2, 
                                       -1*static_cast<float>(Height)/2, static_cast<float>(Height)/2, -1.0f, 1.0f);

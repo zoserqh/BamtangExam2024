@@ -7,16 +7,19 @@
 class GameObject
 {
 public:
-    // object state
-    glm::vec2   Position, Size, Velocity;
-    float       Rotation;
-    float*      pieceData;
-
-    // constructor(s)
+    // render
+    glm::vec2   position, velocity;
+    float sideObject;
+    float* dataObject;
+    int lengthData;
+    unsigned int VBO;
+    unsigned int VAO;
     GameObject();
-    GameObject(glm::vec2 pos, glm::vec2 size, glm::vec2 velocity, float rot, float* pData);
-    // draw sprite
-    // void Draw(SpriteRenderer &renderer);
+    GameObject(glm::vec2 pos, float sideObj, glm::vec2 vel, float* dataO, int lenData);
+    
+    // render
+    void configRender(unsigned int Width, unsigned int Height);
+    void drawObject() const;
 };
 
 #endif

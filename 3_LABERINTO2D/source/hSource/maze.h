@@ -12,8 +12,11 @@ public:
     Maze();
     Maze(int n);
     const vector<vector<Cell>>& getMaze() const;
+    vector<int> getStartPosition() const;
+    vector<int> getFinalPosition() const;
+    int getDimension() const;
     void displayMazeByTerminal() const;
-
+    
     //render
     int lengthPieces[5];
     float* pieces[5];

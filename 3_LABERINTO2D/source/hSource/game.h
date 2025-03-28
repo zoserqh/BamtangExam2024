@@ -13,6 +13,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "game_object.h"
+#include "background.h"
 #include "maze.h"
 #include "shader.h"
 
@@ -32,11 +33,11 @@ public:
     unsigned int            Width, Height;
     
     //elements
-    // GameObject* letterA;
-    // GameObject* letterB;
-    GameObject* ball;
     Maze* maze;
-    // std::vector<GameObject*> pieces;
+    GameObject* letterA;
+    GameObject* letterB;
+    Background* mazeBackground;
+    GameObject* ball;
 
     // constructor/destructor
     Game(unsigned int width, unsigned int height,Maze& mazeTarget);
