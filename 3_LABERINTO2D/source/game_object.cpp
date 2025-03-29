@@ -12,8 +12,8 @@
 GameObject::GameObject() 
     : position(0.0f, 0.0f), sideObject(1.0f), velocity(glm::vec2(0.0f)) { }
 
-GameObject::GameObject(glm::vec2 pos, float sideObj, glm::vec2 velocity, float* dataO, int lenData) 
-    : position(pos), sideObject(sideObj), velocity(velocity), dataObject(dataO), lengthData(lenData) { }
+GameObject::GameObject(glm::vec2 pos, glm::vec2 posG, float sideObj, float modvel, float* dataO, int lenData) 
+    : position(pos), posGraph(posG), sideObject(sideObj), modVelocity(modvel), dataObject(dataO), lengthData(lenData) { }
 
 void GameObject::configRender(unsigned int Width, unsigned int Height)
 {

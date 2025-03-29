@@ -12,6 +12,7 @@ public:
     Maze();
     Maze(int n);
     const vector<vector<Cell>>& getMaze() const;
+    cellType getCellType(int i, int j) const;
     vector<int> getStartPosition() const;
     vector<int> getFinalPosition() const;
     int getDimension() const;

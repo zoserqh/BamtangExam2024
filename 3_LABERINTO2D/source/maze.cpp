@@ -127,6 +127,10 @@ const vector<vector<Cell>>& Maze::getMaze() const{
     return matrix;
 }
 
+cellType Maze::getCellType(int i, int j) const{
+    return matrix[i][j].getCellType();
+}
+
 vector<int> Maze::getStartPosition() const
 {
     return startPosition;

@@ -7,15 +7,15 @@
 class GameObject
 {
 public:
-    // render
-    glm::vec2   position, velocity;
+    glm::vec2   position, velocity, posGraph;
+    float modVelocity;
     float sideObject;
     float* dataObject;
     int lengthData;
     unsigned int VBO;
     unsigned int VAO;
     GameObject();
-    GameObject(glm::vec2 pos, float sideObj, glm::vec2 vel, float* dataO, int lenData);
+    GameObject(glm::vec2 pos, glm::vec2 posG, float sideObj, float modvel, float* dataO, int lenData);
     
     // render
     void configRender(unsigned int Width, unsigned int Height);

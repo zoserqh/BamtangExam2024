@@ -28,8 +28,8 @@ class Game
 {
 public:
     // game state
-    GameState               State;	
-    bool                    Keys[1024];
+    GameState               state;	
+    bool                    keys[1024];
     unsigned int            Width, Height;
     
     //elements
@@ -37,7 +37,7 @@ public:
     GameObject* letterA;
     GameObject* letterB;
     Background* mazeBackground;
-    GameObject* ball;
+    GameObject* circle;
 
     // constructor/destructor
     Game(unsigned int width, unsigned int height,Maze& mazeTarget);

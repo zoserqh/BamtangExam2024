@@ -110,9 +110,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (key >= 0 && key < 1024)
     {
         if (action == GLFW_PRESS)
-            gameMaze.Keys[key] = true;
+            gameMaze.keys[key] = true;
         else if (action == GLFW_RELEASE)
-            gameMaze.Keys[key] = false;
+            gameMaze.keys[key] = false;
     }
 }
 
