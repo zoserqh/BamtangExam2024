@@ -11,8 +11,8 @@
 #include "hSource/game.h"
 
 
-Game::Game(unsigned int width, unsigned int height, Maze& mazeTarget) 
-    : state(GAME_ACTIVE), keys(), Width(width), Height(height), maze(&mazeTarget)
+Game::Game(unsigned int width, unsigned int height, int mazeD) 
+    : state(GAME_ACTIVE), keys(), Width(width), Height(height), mazeDimension(mazeD)
 {
 
 }
@@ -30,6 +30,8 @@ void Game::Init()
     ResourceManager::LoadShader("../resources/shaders/background_vs.glsl", "../resources/shaders/background_fs.glsl", nullptr, "background");
 
     //config Maze
+    maze = new Maze(mazeDimension);
+    maze->displayMazeByTerminal();
     maze->configRender(Width,Height);
 
     //config letters
@@ -307,7 +309,9 @@ void Game::Init()
 
 void Game::Update(float dt)
 {
-
+    if(state == GAME_WIN){
+        Reset();
+    }
 }
 
 void Game::ProcessInput(float dt)
@@ -353,6 +357,10 @@ void Game::ProcessInput(float dt)
                 circle->position.y = upLimit; 
             }
         }
+        
+        if(circle->posGraph.x == maze->getFinalPosition()[1] && circle->posGraph.y == maze->getFinalPosition()[0]){
+            state = GAME_WIN;
+        }
     }
 }
 
@@ -361,8 +369,7 @@ void Game::Render()
     if(this->state == GAME_ACTIVE)
     {
         // draw the maze and letters once
-        static int  key = 1;
-        if(key == 1){
+        if(drawOnceKey == true){
             glBindFramebuffer(GL_FRAMEBUFFER, mazeBackground->frameBuffer);
             maze->drawMaze2D();
             letterA->drawObject();
@@ -376,7 +383,7 @@ void Game::Render()
             glDeleteVertexArrays(1, &letterA->VAO);
             glDeleteBuffers(1, &letterB->VBO);
 
-            key++;
+            drawOnceKey = false;
         }
         
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -389,4 +396,19 @@ void Game::Render()
         //draw circle
         circle->drawObject();
     }
+}
+
+void Game::Reset(){
+    delete circle;
+    delete mazeBackground;
+    delete letterA;
+    delete letterB;
+    delete maze;
+    ResourceManager::Clear();
+
+    mazeDimension +=2;
+    drawOnceKey = true;
+    Init();
+    state = GAME_ACTIVE;
+
 }

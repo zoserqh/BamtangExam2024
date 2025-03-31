@@ -1,11 +1,4 @@
-/*******************************************************************
-** This code is part of Breakout.
-**
-** Breakout is free software: you can redistribute it and/or modify
-** it under the terms of the CC BY 4.0 license as published by
-** Creative Commons, either version 4 of the License, or (at your
-** option) any later version.
-******************************************************************/
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -24,14 +17,11 @@ const unsigned int SCREEN_WIDTH = 800;
 // The height of the screen
 const unsigned int SCREEN_HEIGHT = 800;
 
-Maze myMaze;
-Game gameMaze(SCREEN_WIDTH, SCREEN_HEIGHT, myMaze);
+Game gameMaze(SCREEN_WIDTH, SCREEN_HEIGHT, 7);
 
 int main(int argc, char *argv[])
 {
-    myMaze = createMaze2D(11);
-    myMaze.displayMazeByTerminal();
-
+    
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);

@@ -31,7 +31,8 @@ public:
     GameState               state;	
     bool                    keys[1024];
     unsigned int            Width, Height;
-    
+    int mazeDimension = 5;
+    bool drawOnceKey = true;
     //elements
     Maze* maze;
     GameObject* letterA;
@@ -40,7 +41,7 @@ public:
     GameObject* circle;
 
     // constructor/destructor
-    Game(unsigned int width, unsigned int height,Maze& mazeTarget);
+    Game(unsigned int width, unsigned int height,int mazeD);
     ~Game();
     // initialize game state (load all shaders/textures/levels)
     void Init();
@@ -48,6 +49,7 @@ public:
     void ProcessInput(float dt);
     void Update(float dt);
     void Render();
+    void Reset();
 };
 
 #endif
