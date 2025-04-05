@@ -443,7 +443,7 @@ void Maze::drawMaze2D() const
                 ResourceManager::GetShader("piece").SetFloat("scale", sidePiece);
                 ResourceManager::GetShader("piece").SetVector2f("translateXY", currPos);
                 glBindVertexArray(currVAO);
-                glDrawArrays(GL_TRIANGLES, 0,currLength);
+                glDrawArrays(GL_TRIANGLES, 0,currLength/5);
             }
         }
     }

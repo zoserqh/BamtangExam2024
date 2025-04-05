@@ -45,5 +45,5 @@ void GameObject::drawObject() const
     ResourceManager::GetShader("gameObject").SetFloat("scale", sideObject);
     ResourceManager::GetShader("gameObject").SetVector2f("translateXY", position);
     glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0,lengthData);
+    glDrawArrays(GL_TRIANGLES, 0,lengthData/5);
 }
