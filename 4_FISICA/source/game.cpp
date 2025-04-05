@@ -70,7 +70,7 @@ void Game::Init()
         0.05f, 0.03f //1
     };
     
-    letterG = new GameObject(glm::vec2(300.0f,300.0f), glm::vec3(0.0f,0.0f,1.0f), 50.0f, dataLetterG, lengthDataLetterG);
+    letterG = new GameObject(glm::vec2(300.0f,300.0f), glm::vec3(0.0f,0.0f,1.0f), 20.0f, dataLetterG, lengthDataLetterG);
     letterG->configRender(Width,Height);
     delete [] dataLetterG;
 
@@ -82,7 +82,7 @@ void Game::Init()
         0.4f, 0.5f
     };
 
-    letterV = new GameObject(glm::vec2(-300.0f,-300.0f), glm::vec3(1.0f,0.6445f,0.0f), 50.0f, dataLetterV, lengthDataLetterV);
+    letterV = new GameObject(glm::vec2(-300.0f,-300.0f), glm::vec3(1.0f,0.6445f,0.0f), 10.0f, dataLetterV, lengthDataLetterV);
     letterV->configRender(Width,Height);
     delete [] dataLetterV;
 
@@ -127,9 +127,65 @@ void Game::Init()
         0.0, 0.5,//7
     };
     
-    letterO = new GameObject(glm::vec2(0.0f,0.0f), glm::vec3(1.0f,0.6445f,0.0f), 50.0f, dataLetterO, lengthDataLetterO);
+    letterO = new GameObject(glm::vec2(0.0f,0.0f), glm::vec3(1.0f,0.6445f,0.0f), 10.0f, dataLetterO, lengthDataLetterO);
     letterO->configRender(Width,Height);
     delete [] dataLetterO;
+
+    // config Balls
+    int lengthDataBall = 66;
+    float* dataBall = new float[lengthDataBall]{
+        0.5, 0.0,
+        0.4904, 0.0975,
+        0.4619, 0.1913,
+        0.4157, 0.2778,
+        0.3536, 0.3536,
+        0.2778, 0.4157,
+        0.1913, 0.4619,
+        0.0975, 0.4904,
+        0.0, 0.5,
+        -0.0975, 0.4904,
+        -0.1913, 0.4619,
+        -0.2778, 0.4157,
+        -0.3536, 0.3536,
+        -0.4157, 0.2778,
+        -0.4619, 0.1913,
+        -0.4904, 0.0975,
+        -0.5, 0.0,
+        -0.4904, -0.0975,
+        -0.4619, -0.1913,
+        -0.4157, -0.2778,
+        -0.3536, -0.3536,
+        -0.2778, -0.4157,
+        -0.1913, -0.4619,
+        -0.0975, -0.4904,
+        0.0, -0.5,
+        0.0975, -0.4904,
+        0.1913, -0.4619,
+        0.2778, -0.4157,
+        0.3536, -0.3536,
+        0.4157, -0.2778,
+        0.4619, -0.1913,
+        0.4904, -0.0975,
+        0.5, 0.0
+    };
+
+    ball0 = new BallObject(glm::vec2(0.0f,0.0f), glm::vec3(0.0f,0.0f,0.0f), 150.0f, 1.0f, dataBall, lengthDataBall);
+    ball0->configRender(Width,Height);
+    delete [] dataBall;
+
+    // config Vectors
+    int lengthDataArrowG = 10;
+    float* dataArrowG = new float[lengthDataArrowG]{
+        -0.25f, 0.25f,
+        0.0f, 0.5f,
+        0.0f, -0.5f,
+        0.0f, 0.5f,
+        0.25f, 0.25f,
+    };
+
+    arrowG = new ArrowObject(glm::vec2(0.0f,0.0f), glm::vec3(1.0f,0.0f,0.0f), 150.0f, 0.0f, dataArrowG, lengthDataArrowG);
+    arrowG->configRender(Width,Height);
+    delete [] dataArrowG;
 }
 
 void Game::Update(float dt)
@@ -147,6 +203,8 @@ void Game::Render()
     letterG->drawObject();
     letterV->drawObject();
     letterO->drawObject();
+    ball0->drawObject();
+    arrowG->drawObject();
 }
 
 void Game::Reset()

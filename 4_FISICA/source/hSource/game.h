@@ -14,6 +14,8 @@
 #include <GLFW/glfw3.h>
 #include "resource_manager.h"
 #include "game_object.h"
+#include "ball_object.h"
+#include "arrow_object.h"
 #include "shader.h"
 
 // Represents the current state of the game
@@ -34,6 +36,9 @@ public:
     GameObject* letterG;
     GameObject* letterV;
     GameObject* letterO;
+    GameObject* ball0;
+    GameObject* arrowG;
+    GameObject* arrowO;
 
     // constructor/destructor
     Game(unsigned int width, unsigned int height);
