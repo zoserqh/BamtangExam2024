@@ -31,14 +31,17 @@ public:
     // game state
     GameState               state;	
     bool                    keys[1024];
+    bool                    buttonLeftCursorPressed = false;
+    float                   cursorX;
+    float                   cursorY;
     unsigned int            Width, Height;
     //elements
     GameObject* letterG;
     GameObject* letterV;
     GameObject* letterO;
-    GameObject* ball0;
-    GameObject* arrowG;
-    GameObject* arrowO;
+    BallObject* ball0;
+    ArrowObject* arrowG;
+    ArrowObject* arrowO;
 
     // constructor/destructor
     Game(unsigned int width, unsigned int height);

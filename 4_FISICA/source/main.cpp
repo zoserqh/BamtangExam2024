@@ -9,11 +9,16 @@
 // GLFW function declarations
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 // The Width of the screen
 const unsigned int SCREEN_WIDTH = 800;
 // The height of the screen
 const unsigned int SCREEN_HEIGHT = 800;
+
+// cursor position
+double cursorX=0;
+double cursorY=0;
 
 Game gameBalls(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -40,6 +45,7 @@ int main(int argc, char *argv[])
 
     glfwSetKeyCallback(window, key_callback);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     // OpenGL configuration
     // --------------------
@@ -95,6 +101,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     // when a user presses the escape key, we set the WindowShouldClose property to true, closing the application
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    
     if (key >= 0 && key < 1024)
     {
         if (action == GLFW_PRESS)
@@ -109,4 +116,15 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    {   
+        glfwGetCursorPos(window,&cursorX,&cursorY);
+        gameBalls.buttonLeftCursorPressed = true;
+        gameBalls.cursorX = cursorX;
+        gameBalls.cursorY = cursorY;
+    }
 }

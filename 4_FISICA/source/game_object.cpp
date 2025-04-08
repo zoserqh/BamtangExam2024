@@ -1,5 +1,4 @@
 #include "hSource/game_object.h"
-#include "hSource/resource_manager.h"
 
 GameObject::GameObject(glm::vec2 pos, glm::vec3 col, float sideObj, float* dataO, int lenData) 
     : position(pos), color(col), sideObject(sideObj), dataObject(dataO), lengthData(lenData) 
