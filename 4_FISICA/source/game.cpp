@@ -1,11 +1,3 @@
-/*******************************************************************
-** This code is part of Breakout.
-**
-** Breakout is free software: you can redistribute it and/or modify
-** it under the terms of the CC BY 4.0 license as published by
-** Creative Commons, either version 4 of the License, or (at your
-** option) any later version.
-******************************************************************/
 #include <vector>
 #include <iostream>
 #include "hSource/game.h"
@@ -170,17 +162,22 @@ void Game::Init()
 }
 
 void Game::Update(float dt)
-{
-    for(int i=0;i<balls.size();i++){
-        balls[i]->update(dt,gravityValue,Width,Height); 
-    }
+{   if(state == GAME_ACTIVE){
+        for(int i=0;i<balls.size();i++){
+            balls[i]->update(dt,gravityValue,Width,Height);
+            // Check for collisions with other balls
+            for (size_t j = i + 1; j < balls.size(); ++j) {
+                resolveBallCollision(*balls[i], *balls[j]);
+            }
+        }
 
-    // delete static balls
-    for(int i=0;i<balls.size();i++){
-        if(balls[i]->shouldBeRemoved()) {
-            delete balls[i];
-            balls.erase(balls.begin()+i);
-            break;
+        // delete static balls
+        for(int i=0;i<balls.size();i++){
+            if(balls[i]->shouldBeRemoved()) {
+                delete balls[i];
+                balls.erase(balls.begin()+i);
+                break;
+            }
         }
     }
 }
@@ -199,7 +196,6 @@ void Game::ProcessInput(float dt){
             float vPosy = letterO->position.y + (arrowO->sideObject)*sin(arrowO->angle*(M_PI/180)+M_PI/2) + arrowO->sideObject*sqrt(2)/16;
             letterV->position = glm::vec2(vPosx, vPosy);
 
-            std::cout << "x: " << cursorX << " y: " << cursorY << "\n";
             buttonLeftCursorPressed = false;
         }
 
@@ -292,7 +288,7 @@ void Game::ProcessInput(float dt){
             delete [] dataBall;
             balls.push_back(ball);
             keys[GLFW_KEY_SPACE] = false;
-            std::cout << "alls.size(): " << balls.size() << "\n";
+            std::cout << "balls.size(): " << balls.size() << "\n";
         }
     }
     

@@ -17,6 +17,8 @@ public:
     unsigned int VAO;
     GameObject(glm::vec2 pos, glm::vec3 col, float sideObj, float* dataO, int lenData);
     
+    const glm::vec2& getPosition() const;
+    void setPosition(const glm::vec2& newPosition);
     // render
     virtual void configRender(unsigned int Width, unsigned int Height);
     virtual void drawObject() const;

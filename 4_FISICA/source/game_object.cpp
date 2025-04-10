@@ -6,6 +6,14 @@ GameObject::GameObject(glm::vec2 pos, glm::vec3 col, float sideObj, float* dataO
 
 }
 
+const glm::vec2& GameObject::getPosition() const { 
+    return position; 
+}
+
+void GameObject::setPosition(const glm::vec2& newPosition) { 
+    position = newPosition; 
+}
+
 void GameObject::configRender(unsigned int Width, unsigned int Height)
 {
     ResourceManager::GetShader("gameObject").Use();
