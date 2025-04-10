@@ -13,9 +13,9 @@ Para ejecutar, ubicarse dentro de la carpeta exec
     ./run
 
 ## Resultados
-<!--- (![Alt text](dataReadme/playing.png "playing")
-[video here](https://youtu.be/G9W5ZZFAmH4)
---->
+![Alt text](dataReadme/ballCollision.png "playing")
+[video here](https://youtu.be/ZQzhhncAP_E)
+
 ## Notes
 <!--- Este proyecto se realizó con openGL moderno(4.6 core-profile) usando shaders.
 Para el manejo de periféricos y ventanas se uso [GLFW](https://www.glfw.org/) adicionalmente [glad](https://glad.dav1d.de/).
