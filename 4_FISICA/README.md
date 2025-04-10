@@ -14,18 +14,16 @@ Para ejecutar, ubicarse dentro de la carpeta exec
 
 ## Resultados
 ![Alt text](dataReadme/ballCollision.png "playing")
+
 [video here](https://youtu.be/ZQzhhncAP_E)
 
 ## Notes
-<!--- Este proyecto se realizó con openGL moderno(4.6 core-profile) usando shaders.
+Este proyecto se realizó con openGL moderno(4.6 core-profile) usando shaders.
 Para el manejo de periféricos y ventanas se uso [GLFW](https://www.glfw.org/) adicionalmente [glad](https://glad.dav1d.de/).
 Para el uso de vectores y matrices homogeneas se usó [glm](https://glm.g-truc.net/0.9.8/index.html).
 
-Renderizado: 
-
-No se usó texturas, el laberinto, el círculo y las letras A y B son completamente generadas a partir de un array de posiciones y colores.
-
-El renderizado del laberinto se hizo a partir de 5 tipos de piezas que con transformaciones de escalamiento, rotación y traslación forman el laberinto.
-
-Como el laberinto y las letras A(start) y B(final) no cambian durante cada renderizado se optó por renderizarse fuera de pantalla guardandolo en un frame buffer object y usandolo como textura cuando se renderiza en pantalla. Esto elimina el trabajo repetitivo de construir el laberinto y las letras A y B cada vez que se renderice. Una vez obtenida esta información como textura se borran los VBO VAO del laberinto y de las letras. liberando asi espacio en la memoria de la GPU.
-    --->
+controles:
+click izquierdo, establece una nueva posicion para el origen de disparo.
+Teclas A y D, varia la velocidad con la que va a ser lanzada una pelota [0,100]
+Teclas W y S, varia el ángulo de disparo, W para el giro antihorario y S para el giro horario.
+Tecla SPACIO, dispara una pelota
