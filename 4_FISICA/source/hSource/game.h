@@ -39,7 +39,7 @@ public:
     GameObject* letterG;
     GameObject* letterV;
     GameObject* letterO;
-    BallObject* ball0;
+    std::vector<BallObject*> balls;
     ArrowObject* arrowG;
     ArrowObject* arrowO;
 

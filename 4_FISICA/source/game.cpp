@@ -11,6 +11,10 @@
 #include "hSource/game.h"
 #include <cmath>
 
+ // physic parameters
+ float gravityValue = 980.0f; // pixeles/s²
+ float elasticityValue = 0.7f;
+ float frictionValue = 0.05f;
 
 Game::Game(unsigned int width, unsigned int height) 
     : state(GAME_ACTIVE), keys(), Width(width), Height(height)
@@ -102,50 +106,6 @@ void Game::Init()
     letterV->configRender(Width,Height);
     delete [] dataLetterV;
 
-    
-
-    // config Balls
-    int lengthDataBall = 66;
-    float* dataBall = new float[lengthDataBall]{
-        0.5, 0.0,
-        0.4904, 0.0975,
-        0.4619, 0.1913,
-        0.4157, 0.2778,
-        0.3536, 0.3536,
-        0.2778, 0.4157,
-        0.1913, 0.4619,
-        0.0975, 0.4904,
-        0.0, 0.5,
-        -0.0975, 0.4904,
-        -0.1913, 0.4619,
-        -0.2778, 0.4157,
-        -0.3536, 0.3536,
-        -0.4157, 0.2778,
-        -0.4619, 0.1913,
-        -0.4904, 0.0975,
-        -0.5, 0.0,
-        -0.4904, -0.0975,
-        -0.4619, -0.1913,
-        -0.4157, -0.2778,
-        -0.3536, -0.3536,
-        -0.2778, -0.4157,
-        -0.1913, -0.4619,
-        -0.0975, -0.4904,
-        0.0, -0.5,
-        0.0975, -0.4904,
-        0.1913, -0.4619,
-        0.2778, -0.4157,
-        0.3536, -0.3536,
-        0.4157, -0.2778,
-        0.4619, -0.1913,
-        0.4904, -0.0975,
-        0.5, 0.0
-    };
-
-    ball0 = new BallObject(glm::vec2(0.0f,0.0f), glm::vec3(0.0f,0.0f,0.0f), 150.0f, 1.0f, dataBall, lengthDataBall);
-    ball0->configRender(Width,Height);
-    delete [] dataBall;
-
     // config vector gravity
     int lengthDataArrowG = 10;
     float* dataArrowG = new float[lengthDataArrowG]{
@@ -211,7 +171,18 @@ void Game::Init()
 
 void Game::Update(float dt)
 {
+    for(int i=0;i<balls.size();i++){
+        balls[i]->update(dt,gravityValue,Width,Height); 
+    }
 
+    // delete static balls
+    for(int i=0;i<balls.size();i++){
+        if(balls[i]->shouldBeRemoved()) {
+            delete balls[i];
+            balls.erase(balls.begin()+i);
+            break;
+        }
+    }
 }
 
 void Game::ProcessInput(float dt){
@@ -270,6 +241,59 @@ void Game::ProcessInput(float dt){
             float vPosy = letterO->position.y + (arrowO->sideObject)*sin(arrowO->angle*(M_PI/180)+M_PI/2) + arrowO->sideObject*sqrt(2)/16;
             letterV->position = glm::vec2(vPosx, vPosy);
         }
+        else if(keys[GLFW_KEY_SPACE]){
+            int lengthDataBall = 66;
+            float* dataBall = new float[lengthDataBall]{
+                0.5, 0.0,
+                0.4904, 0.0975,
+                0.4619, 0.1913,
+                0.4157, 0.2778,
+                0.3536, 0.3536,
+                0.2778, 0.4157,
+                0.1913, 0.4619,
+                0.0975, 0.4904,
+                0.0, 0.5,
+                -0.0975, 0.4904,
+                -0.1913, 0.4619,
+                -0.2778, 0.4157,
+                -0.3536, 0.3536,
+                -0.4157, 0.2778,
+                -0.4619, 0.1913,
+                -0.4904, 0.0975,
+                -0.5, 0.0,
+                -0.4904, -0.0975,
+                -0.4619, -0.1913,
+                -0.4157, -0.2778,
+                -0.3536, -0.3536,
+                -0.2778, -0.4157,
+                -0.1913, -0.4619,
+                -0.0975, -0.4904,
+                0.0, -0.5,
+                0.0975, -0.4904,
+                0.1913, -0.4619,
+                0.2778, -0.4157,
+                0.3536, -0.3536,
+                0.4157, -0.2778,
+                0.4619, -0.1913,
+                0.4904, -0.0975,
+                0.5, 0.0
+            };
+
+            
+            BallObject* ball = new BallObject(letterO->position, 
+                                            glm::vec3(0.0f,0.0f,0.0f), 
+                                            100.0f, 
+                                            glm::vec2( 10*(arrowO->sideObject)*cos(arrowO->angle*(M_PI/180)+M_PI/2) ,10*(arrowO->sideObject)*sin(arrowO->angle*(M_PI/180)+M_PI/2)), 
+                                            elasticityValue,
+                                            frictionValue,
+                                            dataBall, 
+                                            lengthDataBall);
+            ball->configRender(Width,Height);
+            delete [] dataBall;
+            balls.push_back(ball);
+            keys[GLFW_KEY_SPACE] = false;
+            std::cout << "alls.size(): " << balls.size() << "\n";
+        }
     }
     
 }
@@ -284,7 +308,9 @@ void Game::Render()
         letterV->drawObject();
 
         //
-        ball0->drawObject();
+        for(int i=0;i<balls.size();i++){
+            balls[i]->drawObject();
+        }
         
         //
         letterG->drawObject();
